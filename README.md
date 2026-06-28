@@ -4,6 +4,10 @@ Display images inside **World of Warcraft** using [TRP3: Extended](https://www.c
 
 Images are encoded into compact base62 run-length data by a Python script, then rendered in-game as colored WoW frame textures.
 
+| Source image | In-game result |
+|:---:|:---:|
+| ![source](example.png) | ![in-game](exampleResultInGame.png) |
+
 ---
 
 ## How it works
