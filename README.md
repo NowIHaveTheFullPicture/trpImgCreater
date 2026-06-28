@@ -1,4 +1,4 @@
-# trpImgCreater
+# trp-img-creator
 
 Display images inside **World of Warcraft** using [TRP3: Extended](https://www.curseforge.com/wow/addons/total-rp-3-extended) item scripts — no addon required for viewers.
 
@@ -6,22 +6,22 @@ Images are encoded into compact base62 run-length data by a Python script, then 
 
 | Source image | In-game result |
 |:---:|:---:|
-| ![source](example.png) | ![in-game](exampleResultInGame.png) |
+| ![source](example.png) | ![in-game](example-result-in-game.png) |
 
 ---
 
 ## How it works
 
 ```
-your_image.png  →  convert.py  →  your_image_loader2.lua  +  drawImg.lua
+your_image.png  →  convert-img.py  →  your_image_loader2.lua  +  draw-img.lua
                                          ↓                          ↓
                                   (loader script)           (draw script)
                                   sets globals              reads globals & renders
 ```
 
-1. `convert.py` quantizes the PNG to a small palette, merges similar-colored horizontal runs, and encodes everything as a base62 string.
+1. `convert-img.py` quantizes the PNG to a small palette, merges similar-colored horizontal runs, and encodes everything as a base62 string.
 2. The generated `_loader2.lua` script stores the canvas size, palette, and pixel data as WoW globals.
-3. `drawImg.lua` reads those globals and draws colored `CreateTexture` rectangles to reconstruct the image.
+3. `draw-img.lua` reads those globals and draws colored `CreateTexture` rectangles to reconstruct the image.
 
 Both scripts are pasted into separate TRP3 Extended item scripts and run in sequence.
 
@@ -39,17 +39,17 @@ Both scripts are pasted into separate TRP3 Extended item scripts and run in sequ
 
 ### 1. Encode your image
 
-Drop any `.png` file into the `trpImgCreater/` folder alongside `convert.py`, then run:
+Drop any `.png` file into the `trpImgCreater/` folder alongside `convert-img.py`, then run:
 
 ```bash
-python convert.py
+python convert-img.py
 ```
 
 This generates `your_image_loader2.lua` in the same folder.
 
 ### 2. Configure per-image settings (optional)
 
-Edit the `IMAGE_CONFIG` dict at the top of `convert.py`:
+Edit the `IMAGE_CONFIG` dict at the top of `convert-img.py`:
 
 ```python
 IMAGE_CONFIG = {
@@ -74,7 +74,7 @@ In-game, create a TRP3 Extended **item** with two **Script** actions:
 - Paste the full contents of `your_image_loader2.lua`
 
 **Script 2 — Draw** (run second, or combine into one button):
-- Paste the full contents of `drawImg.lua`
+- Paste the full contents of `draw-img.lua`
 
 Trigger both scripts in order (e.g. via a single button that runs Script 1 then Script 2). The image appears in a draggable, closable window centered on screen.
 
@@ -84,7 +84,7 @@ Trigger both scripts in order (e.g. via a single button that runs Script 1 then 
 
 WoW has a texture limit of roughly **12,000–15,000** textures per frame. If your image exceeds this, the draw will stop mid-image.
 
-Check the output of `convert.py`:
+Check the output of `convert-img.py`:
 
 ```
 OK portrait.png | 122x220 (pinned H=220) | tol=30 | 8,412 runs | 41.0 KB
